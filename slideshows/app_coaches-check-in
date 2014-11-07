@@ -1,0 +1,168 @@
+class: center, middle
+
+# Coaches Check-in
+
+---
+
+class: center, middle
+
+## User Stories
+
+---
+
+### Story 1
+As a student  
+I want to know which coaches are onsite  
+So I can reach out to them in person  
+
+**Acceptance Criteria**
+
+- Students can see a list of coaches onsite including pic and name
+- List of onsite coaches is cleared at regular intervals
+
+### Story 2
+As a coach  
+I want an easy way to announce my arrival  
+So that students, teachers and other coaches can easily identify me  
+
+**Acceptance Criteria**
+
+- Coaches can announce their arrival onsite automagically
+- Coaches can announce their departure automagically
+
+---
+
+class: center, middle
+
+## Demonstration
+
+---
+
+### Step 1
+
+Coaches check-in to DBC by clicking an app icon on their phone as they walk in the door.
+
+![home screen icon](http://i.imgur.com/rj2F7mHm.png?1)
+
+---
+
+### Step 2
+
+Within seconds their picture appears on the [coaches website](http://coaches.devbootcamp.com).
+
+![image of coaches homepage with gravatar icon](http://i.imgur.com/VcYObon.png)
+
+---
+
+class: center, middle
+
+## Minimum Viable Product
+
+---
+
+### Application Flow
+
+![image of whiteboard design]()
+
+
+### Components
+
+- Zapier
+  - [Webhook](https://zapier.com/zapbook/webhook/)
+    - trigger: capture email (gravatar) for specific coach
+    - action:  create child record in Firebase
+  - [Scheduler](https://zapier.com/zapbook/schedule/)
+    - trigger: once per day @ 3am PDT
+    - action: clear [Firebase](https://zapier.com/zapbook/firebase/) children
+- [Firebase](https://www.firebase.com)
+  - store records representing coaches onsite
+- [Code](https://www.firebase.com/docs/web/api/)
+  - boilerplate javascript to render coaches using Firebase API
+
+
+---
+
+class: center, middle
+
+## Construction
+
+---
+
+We configured the Zapier webhook
+
+![zapier configuration](http://i.imgur.com/bpZauNO.png?1)
+
+And captured the unique URL generated for this zap
+
+```
+https://zapier.com/hooks/catch/RANDOM_CHARACTERS/
+```
+
+We connected our Firebase account and tested the hook with a GET request
+
+---
+
+In Zapier we found the zap related to this application
+
+![Zapier dashboard](http://i.imgur.com/T1UldoC.png)
+
+We could see that Zapier was reporting a successful trigger for this zap in its history
+
+![Zapier history](http://i.imgur.com/JDVI76y.png)
+
+---
+
+Firebase also reported successfully receiving the data
+
+![Firebase console](http://i.imgur.com/e7vUQz9.png?1)
+
+---
+
+Finally, to render the entries in Firebase we use a little Javascript
+
+```javascript
+$(document).ready(function() {
+  var database = new Firebase('https://dbc-coaches.firebaseio.com/')
+    , checkIns = database.child('checkin')
+
+  checkIns.on('value', checkIn)
+
+  function checkIn(response) {
+    var coaches = response.val()
+    for (coach in coaches) {
+      var email = formatEmail(coaches[coach].email)
+      if (checkInUnique(email)) $('.check-ins').append(template(email))
+    }
+  }
+
+  function template(email) {
+    var hashedEmail = MD5(email)
+    return '<a href="mailto:' + email +
+      '" data-email="' + email + '">' +
+      '<img src="http://www.gravatar.com/avatar/' + hashedEmail + '?s=50"></a>'
+  }
+
+  function formatEmail(email) {
+    return $.trim(String(email).toLowerCase())
+  }
+
+  function checkInUnique(email) {
+    return $('.check-ins a[data-email="' + email + '"]').length === 0
+  }
+})
+```
+
+---
+
+To use the new system, coaches were asked to use the default iOS web browser (Safari)
+and  visit the Zapier webhook URL with their email appended.
+
+Once the page loaded they could then add it to their iOS home screen
+
+The URL format is something like this:  
+
+```text
+http://zapier-webhook-url?email=COACH_EMAIL
+```
+
+![bookmark Safari URL in iOS](http://i.imgur.com/DGPllqzm.png?1)  ![home screen icon](http://i.imgur.com/rj2F7mHm.png?1)
