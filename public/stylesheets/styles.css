@@ -26,6 +26,10 @@ h1, h2, h3 {
   color: #aaa;
 }
 
+.remark-slide-content {
+  color: #444;
+}
+
 .remark-slide-content img {
   border: 1px solid #ccc;
   display: block;
