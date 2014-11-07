@@ -1,0 +1,58 @@
+class: center, middle
+
+# APP NAME
+
+---
+
+class: center, middle
+
+## User Stories
+
+---
+
+### Story N
+As a ...  
+I want to ...  
+So I can ...  
+
+**Acceptance Criteria**
+
+- criteria N
+
+---
+
+class: center, middle
+
+## Demonstration
+
+---
+
+### Step N
+
+![image of step]()
+
+---
+
+class: center, middle
+
+## Minimum Viable Product
+
+---
+
+### Application Flow
+
+![image of whiteboard design]()
+
+### Components
+
+- component N
+
+---
+
+class: center, middle
+
+## Construction
+
+---
+
+![image of construction process]()
