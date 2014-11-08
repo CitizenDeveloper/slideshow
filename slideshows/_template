@@ -1,6 +1,17 @@
 class: center, middle
 
-# APP NAME
+# APP_NAME
+
+---
+
+### Overview
+
+- User Stories
+- Demonstration
+- Minimum Viable Product
+  - Components
+  - Construction
+- Deployment
 
 ---
 
@@ -17,7 +28,7 @@ So I can ...
 
 **Acceptance Criteria**
 
-- criteria N
+- item N 
 
 ---
 
@@ -27,9 +38,7 @@ class: center, middle
 
 ---
 
-### Step N
-
-![image of step]()
+### Demo: Step N
 
 ---
 
@@ -39,20 +48,56 @@ class: center, middle
 
 ---
 
-### Application Flow
+### MVP Application Flow
 
 ![image of whiteboard design]()
 
-### Components
+---
+
+### MVP Components
 
 - component N
 
 ---
 
-class: center, middle
+### MVP Construction
 
-## Construction
+- step
+
+![screenshot]()
+
+```html
+code
+```
 
 ---
 
-![image of construction process]()
+### MVP Construction ...
+
+- continued
+
+---
+
+class: center, middle
+
+## Deployment
+
+---
+
+### Deployment
+
+- step
+
+![screenshot]()
+
+---
+
+class: center, middle
+
+## Live
+
+---
+
+class: center, middle
+
+![final product]()
