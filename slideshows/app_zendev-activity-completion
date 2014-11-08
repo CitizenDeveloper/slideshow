@@ -1,0 +1,319 @@
+class: center, middle
+
+# Citizen Developer Activity Completion
+
+---
+
+### Overview
+
+- User Stories
+- Demonstration
+- Minimum Viable Product
+  - Components
+  - Construction
+- Deployment
+
+---
+
+class: center, middle
+
+## User Stories
+
+---
+
+### Story 1
+As a student  
+I want to mark an activity as complete  
+So I can track my progress through the course  
+
+**Acceptance Criteria**
+
+- I can mark an activity as complete  
+- I can see which activities I have completed  
+- I can see which activities my peers have completed
+
+### Story 2
+As an instructor  
+I want to see which activities have been completed and by whom  
+So I can track student progress throughout the course  
+
+**Acceptance Criteria**
+
+- I can see activity completion status per student
+
+---
+
+### Story 3
+As an instructor  
+I want to track the amount of time students spend on each activity  
+So I can adjust the pace of delivery to meet the time constraints of the course  
+
+**Acceptance Criteria**
+
+- I can see aggregate metrics about the time students spend on activities
+- I can identify outliers in how students spend their time during the course
+
+### Story 4
+As a course designer  
+I want feedback on the course content and difficulty  
+So I can improve and adjust course delivery and difficulty  
+
+**Acceptance Criteria**
+
+- I can see feedback collected from students about each activity  
+- I can see student perception of activity difficulty upon completion
+
+---
+
+class: center, middle
+
+## Demonstration
+
+---
+
+### Demo: Step 1
+
+Students complete a simple form after each activity, optionally providing a 
+quantitative measure of effort in minutes and a qualitative measure of difficulty
+on a 4 point scale.  Feedback is also welcome
+
+![activity completion form](http://i.imgur.com/IV0Gywl.png)
+
+---
+
+### Demo: Step 2
+
+As soon as an activity completion form is submitted, the Lighthouse updates automatically
+with an image of the student who completed the activity
+
+![lighthouse](http://i.imgur.com/Ye6AE4h.png?2)
+
+---
+
+### Demo: Step 3
+
+The Activity Report shows realtime student progress with aggregate measures of effort as 
+well as feedback per activity
+
+![wufoo report](http://i.imgur.com/KcH0eoK.png?1)
+
+---
+
+class: center, middle
+
+## Minimum Viable Product
+
+---
+
+### MVP Application Flow
+
+![image of whiteboard design]()
+
+---
+
+### MVP Components
+
+- [Wufoo](http://www.wufoo.com)
+  - **form**: activity feedback
+  - **report**: activity report
+  - **webhook**: send to Zapier
+- Zapier
+  - [Wufoo](https://zapier.com/zapbook/wufoo) -> [Podio](https://zapier.com/zapbook/podio)
+    - **trigger**: new form submission in Wufoo
+    - **action**: create new item in Podio
+- [Podio](https://podio.com)
+  - **organization**: Citizen Developer
+  - **workspace**: Lighthouse
+  - **app**: Activities
+- Code
+  - the Lighthouse page on citizen-developer.squarespace.com
+      - uses oAuth through Podio to identify the current user
+      - renders Podio images for users who completed an activity
+      - renders page links with user email in URL to track completion
+  - each activity page has a dynamic Wufoo form injected into it
+      - prefills user email and activity identifier from URL
+    
+---
+
+### MVP Construction
+
+- Wufoo was used to build a form that could be embedded in the website
+
+![Wufoo form design](http://i.imgur.com/IV0Gywl.png)
+
+---
+
+### MVP Construction ...
+
+- The completed form sends a partial data payload through Zapier to Podio
+
+![Wufoo webhook](http://i.imgur.com/TVf7I3q.png)
+
+---
+
+### MVP Construction ...
+
+- Zapier maps the incoming Wufoo data into a Podio app
+
+![Zapier connects Wufoo to Podio](http://i.imgur.com/KF0Kk0e.png?1)
+
+![zap dashboard](http://i.imgur.com/uQl5eqg.png)
+
+![zap history](http://i.imgur.com/qRY0qiD.png)
+
+---
+
+### MVP Construction ...
+
+- Podio captures the data to track activity completion
+
+![Lighthouse app in Podio](http://i.imgur.com/jNWCHtd.png?1)
+
+---
+
+### MVP Construction ...
+
+- The Lighthouse page shows activity completion per user
+
+![Lighthouse activity completion](http://i.imgur.com/Ye6AE4h.png?2)
+
+---
+
+### MVP Construction ...
+
+- The Lighthouse page includes about 300 lines of Javascript including a JSON object with the curriculum
+ 
+```javascript
+ var curriculum = {
+    'Monday': {
+      'Introduction to the Maker Mindset': [
+        'Understanding the Maker Mindset',
+        'Understanding Systems Development',
+        'Understanding High Performance Learning',
+        'Understanding How Experts Use Computers'
+      ],
+      'Crossing the Boundary between User and Maker': [
+        'Exploring Data Collection',
+        'Exploring Data in Motion',
+        'Exploring Data Lifecycle Management',
+        'Exploring Data Visualization'
+      ]
+    },
+    ...
+```
+
+---
+
+### MVP Construction ...
+
+- And functions to orchestrate the work to be done to render this page
+ 
+```javascript
+authenticateWithPodio(function() {
+  getCurrentUserFromPodio()
+  getAllUsersFromPodio(function() {
+    render(curriculum)
+    markCompletedItems()
+  })
+})
+
+function authenticateWithPodio (callback) {
+  if (hasAuthenticatedWithPodio()) {
+    getAccessTokenFromPodio(callback)
+  } else {
+    oAuthWithPodio()
+  }
+}
+
+function hasAuthenticatedWithPodio () {
+  return window.location.search.match(/code=/)
+}
+```
+
+---
+
+### MVP Construction ...
+
+- The Lighthouse URL includes an authentication token from Podio
+
+```html
+https://citizen-developer/lighthouse/?&code=078c4cd9e3e345b5b519a4a32eb5286d
+```
+
+- And each activity page includes the user's email as a URL parameter
+
+```html
+https://citizen-developer/activity-1-1?field6=sherif@amgando.org
+```
+
+---
+
+### MVP Construction ...
+
+- The dynamic form is injected into each activity with 20 lines of javascript
+- The form itself is rendered by another 30 lines of code
+
+```javascript
+$(document).ready(function() {
+  if (onActivityPage()) {
+    render(feedbackFormTemplate())
+    executeWufooScript()
+  }
+
+  function onActivityPage() {
+    return window.location.pathname.match(/activity-(\d)+-(\d)+/)
+  }
+
+  function render(template) {
+    $('#content > div').append(template)
+  }
+  ...
+```
+
+---
+
+### MVP Construction ...
+
+- And there's more work left to do, of course!
+
+```javascript
+  // needs refactoring
+  function template(coursework) {
+  
+  ...
+  
+  }
+```
+---
+
+class: center, middle
+
+## Deployment
+
+---
+
+### Deployment
+
+- First the code for the Lighthouse was built and deployed against the Podio API
+- Along the way we tried and swapped out a few different forms technology to reduce the cost of change
+- Managing the deployment within the constraints of Squarespace proved challenging at times
+
+---
+
+class: center, middle
+
+## Live
+
+---
+
+class: center, middle
+
+![final product](http://i.imgur.com/hAwVrk9.png)
+
+---
+
+class: center, middle
+
+![final product](http://i.imgur.com/1jtSuPX.png?1)
+
+
