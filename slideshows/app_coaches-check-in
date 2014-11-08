@@ -59,7 +59,7 @@ Coaches check-in to DBC by clicking an app icon on their phone as they walk in t
 
 ### Demo: Step 2
 
-Within seconds their picture appears on the [coaches website](http://coaches.devbootcamp.com).
+Within seconds their picture appears on the [coaching team website](http://coaches.devbootcamp.com).
 
 ![image of coaches homepage with gravatar icon](http://i.imgur.com/VcYObon.png)
 
@@ -80,12 +80,12 @@ class: center, middle
 ### MVP Components
 
 - Zapier
-  - [Webhook](https://zapier.com/zapbook/webhook/)  
+  - [Webhook](https://zapier.com/zapbook/webhook/) --> [Firebase](https://zapier.com/zapbook/firebase/)
       - **trigger**: capture email (gravatar) for specific coach  
       - **action**:  create child record in Firebase  
-  - [Scheduler](https://zapier.com/zapbook/schedule/)
+  - [Scheduler](https://zapier.com/zapbook/schedule/) --> [Firebase](https://zapier.com/zapbook/firebase/)
       - **trigger**: once per day @ 3am PDT
-      - **action**: clear [Firebase](https://zapier.com/zapbook/firebase/) children
+      - **action**: clear Firebase
 - [Firebase](https://www.firebase.com)
   - store records representing coaches onsite
 - [Code](https://www.firebase.com/docs/web/api/)
@@ -112,11 +112,9 @@ https://zapier.com/hooks/catch/RANDOM_CHARACTERS/
 
 ### MVP Construction ...
 
-- In Zapier we found the zap related to this application
+- The zap we configured automatically tracks history for us
 
 ![Zapier dashboard](http://i.imgur.com/T1UldoC.png)
-
-- We could see that Zapier was reporting a successful trigger for this zap in its history
 
 ![Zapier history](http://i.imgur.com/JDVI76y.png)
 
@@ -124,7 +122,7 @@ https://zapier.com/hooks/catch/RANDOM_CHARACTERS/
 
 ### MVP Construction ...
 
-- Firebase also reported successfully receiving the data
+- Firebase holds the data for us as a key-value pair
 
 ![Firebase console](http://i.imgur.com/e7vUQz9.png?1)
 
@@ -162,7 +160,7 @@ $(document).ready(function() {
 
 ### MVP Construction ...
 
-- These helper functions made the code on the previous slide more readable
+- This helper function was used by the code on the previous slide
 
 ```javascript
 function formatEmail(email) {
@@ -173,6 +171,16 @@ function checkInUnique(email) {
   return $('.check-ins a[data-email="' + email + '"]').length === 0
 }
 ```
+---
+
+### MVP Construction ...
+
+- Every day at 3 am, Firebase wipes all coach check-ins for the day
+
+![Firebase dashboard](http://i.imgur.com/pxTcNbt.png)
+
+![Firebase editor](http://i.imgur.com/enC0WdZ.png?1)
+
 ---
 
 class: center, middle
