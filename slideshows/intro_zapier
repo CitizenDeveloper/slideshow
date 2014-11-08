@@ -80,6 +80,23 @@ Once you've built a few Zaps you can monitor their activity through your dashboa
 
 ---
 
+## Built-in Zaps
+
+#### Triggers
+- schedule something to happen every day, week, month
+- listen for new emails and new mailboxes on an account
+- react to HTTP GET, POST and PUT requests or Poll a URL
+- react to a new item in RSS feed
+
+#### Actions
+- send an email
+- send an SMS message
+- call a phone number
+- send a GET, POST, PUT request
+- create item in RSS feed
+
+---
+
 All connected accounts are available for maintenance as well
 
 ![connected accounts](http://i.imgur.com/vY2VtqJ.png?1)
