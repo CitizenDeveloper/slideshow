@@ -4,6 +4,17 @@ class: center, middle
 
 ---
 
+### Overview
+
+- User Stories
+- Demonstration
+- Minimum Viable Product
+  - Components
+  - Construction
+- Deployment
+
+---
+
 class: center, middle
 
 ## User Stories
@@ -38,7 +49,7 @@ class: center, middle
 
 ---
 
-### Step 1
+### Demo: Step 1
 
 Coaches check-in to DBC by clicking an app icon on their phone as they walk in the door.
 
@@ -46,7 +57,7 @@ Coaches check-in to DBC by clicking an app icon on their phone as they walk in t
 
 ---
 
-### Step 2
+### Demo: Step 2
 
 Within seconds their picture appears on the [coaches website](http://coaches.devbootcamp.com).
 
@@ -60,20 +71,21 @@ class: center, middle
 
 ---
 
-### Application Flow
+### MVP Application Flow
 
 ![image of whiteboard design]()
 
+---
 
-### Components
+### MVP Components
 
 - Zapier
-  - [Webhook](https://zapier.com/zapbook/webhook/)
-    - trigger: capture email (gravatar) for specific coach
-    - action:  create child record in Firebase
+  - [Webhook](https://zapier.com/zapbook/webhook/)  
+      - **trigger**: capture email (gravatar) for specific coach  
+      - **action**:  create child record in Firebase  
   - [Scheduler](https://zapier.com/zapbook/schedule/)
-    - trigger: once per day @ 3am PDT
-    - action: clear [Firebase](https://zapier.com/zapbook/firebase/) children
+      - **trigger**: once per day @ 3am PDT
+      - **action**: clear [Firebase](https://zapier.com/zapbook/firebase/) children
 - [Firebase](https://www.firebase.com)
   - store records representing coaches onsite
 - [Code](https://www.firebase.com/docs/web/api/)
@@ -82,43 +94,45 @@ class: center, middle
 
 ---
 
-class: center, middle
+### MVP Construction
 
-## Construction
-
----
-
-We configured the Zapier webhook
+- We configured the Zapier webhook  
 
 ![zapier configuration](http://i.imgur.com/bpZauNO.png?1)
 
-And captured the unique URL generated for this zap
+- And captured the unique URL generated for this zap
 
-```
+```html
 https://zapier.com/hooks/catch/RANDOM_CHARACTERS/
 ```
 
-We connected our Firebase account and tested the hook with a GET request
+- We connected our Firebase account and tested the hook with a GET request
 
 ---
 
-In Zapier we found the zap related to this application
+### MVP Construction ...
+
+- In Zapier we found the zap related to this application
 
 ![Zapier dashboard](http://i.imgur.com/T1UldoC.png)
 
-We could see that Zapier was reporting a successful trigger for this zap in its history
+- We could see that Zapier was reporting a successful trigger for this zap in its history
 
 ![Zapier history](http://i.imgur.com/JDVI76y.png)
 
 ---
 
-Firebase also reported successfully receiving the data
+### MVP Construction ...
+
+- Firebase also reported successfully receiving the data
 
 ![Firebase console](http://i.imgur.com/e7vUQz9.png?1)
 
 ---
 
-Finally, to render the entries in Firebase we use a little Javascript
+### MVP Construction ...
+
+- Finally, to render the entries in Firebase we use a little Javascript
 
 ```javascript
 $(document).ready(function() {
@@ -141,28 +155,53 @@ $(document).ready(function() {
       '" data-email="' + email + '">' +
       '<img src="http://www.gravatar.com/avatar/' + hashedEmail + '?s=50"></a>'
   }
-
-  function formatEmail(email) {
-    return $.trim(String(email).toLowerCase())
-  }
-
-  function checkInUnique(email) {
-    return $('.check-ins a[data-email="' + email + '"]').length === 0
-  }
 })
 ```
 
 ---
 
-To use the new system, coaches were asked to use the default iOS web browser (Safari)
+### MVP Construction ...
+
+- These helper functions made the code on the previous slide more readable
+
+```javascript
+function formatEmail(email) {
+  return $.trim(String(email).toLowerCase())
+}
+
+function checkInUnique(email) {
+  return $('.check-ins a[data-email="' + email + '"]').length === 0
+}
+```
+---
+
+class: center, middle
+
+## Deployment
+
+---
+
+### Deployment
+
+- To use the new system, coaches were asked to use the default iOS web browser (Safari)
 and  visit the Zapier webhook URL with their email appended.
-
-Once the page loaded they could then add it to their iOS home screen
-
-The URL format is something like this:  
 
 ```text
 http://zapier-webhook-url?email=COACH_EMAIL
 ```
 
-|![bookmark Safari URL in iOS](http://i.imgur.com/DGPllqzm.png?1)
+- Once the page loaded they could then add it to their iOS home screen
+
+![bookmark Safari URL in iOS](http://i.imgur.com/DGPllqzm.png?1)
+
+---
+
+class: center, middle
+
+## Live
+
+---
+
+class: center, middle
+
+![final product](http://i.imgur.com/I9YpHbc.png?1)
