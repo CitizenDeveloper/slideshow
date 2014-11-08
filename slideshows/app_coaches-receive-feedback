@@ -1,0 +1,255 @@
+class: center, middle
+
+# Coaches Receive Feedback
+
+---
+
+### Overview
+
+- User Stories
+- Demonstration
+- Minimum Viable Product
+  - Components
+  - Construction
+- Deployment
+
+---
+
+class: center, middle
+
+## User Stories
+
+---
+
+### Story 1
+As a student
+I want to give coaches feedback on their performance
+So I can thank them and help improve the coaches program
+
+**Acceptance Criteria**
+
+- A feedback form is easily accessible to students
+
+### Story 2
+As a manager of coaches
+I want to review feedback
+So that I know how coaches are performing
+
+**Acceptance Criteria**
+
+- Feedback for coaches is made immediately available to me
+- Feedback includes the coach's name
+
+---
+
+### Story 3
+As a manager of coaches
+I would like to make positive feedback visible
+So that coaches and students maintain a high level of enthusiasm for the program
+
+**Acceptance Criteria**
+
+- Feedback is easy to publish publicly
+- Negative or sensitive feedback is easy to hide from public view
+
+---
+
+class: center, middle
+
+## Demonstration
+
+---
+
+### Demo: Step 1
+
+Students click a link on the [coaching team website](http://coaches.devbootcamp.com)
+
+![feedback link](http://i.imgur.com/PcW3f39.png?1)
+
+---
+
+### Demo: Step 2
+
+They fill out and submit the feedback form
+
+![feedback form](http://i.imgur.com/nCaxnfk.png)
+
+---
+
+### Demo: Step 3
+
+The coaching team manager receives an email and mobile app notification
+
+![notification](http://i.imgur.com/BGNE9KNl.png)
+
+---
+
+### Demo: Step 4
+
+For noteworthy feedback, the coaching team manager changes the status from "Pending Review" to "Promote"
+
+![notification](http://i.imgur.com/xDebkV9.png)
+
+---
+
+### Demo: Step 5
+
+The feedback appears on the coaching team website
+
+![notification](http://i.imgur.com/VIcMVBh.png?1)
+
+---
+
+class: center, middle
+
+## Minimum Viable Product
+
+---
+
+### MVP Application Flow
+
+![image of whiteboard design]()
+
+---
+
+### MVP Components
+
+- [Podio](http://www.podio.com)
+  - **app**: Feedback
+  - **webform**: showing only 2 of 3 available fields
+- Zapier
+  - [Podio](https://zapier.com/zapbook/podio/) --> [Firebase](https://zapier.com/zapbook/firebase/)
+      - **trigger**: Podio Action *(filtered by status == 'Promote')*
+      - **action**: create child record in Firebase
+- [Firebase](http://www.firebase.com)
+  - store records representing coach feedback
+- [Code](https://www.firebase.com/docs/web/api/)
+  - boilerplate javascript to render coach feedback using Firebase API
+
+---
+
+### MVP Construction
+
+- We created a new Podio app to capture feedback
+
+![Feedback app](http://i.imgur.com/b9BmTB7.png?1)
+
+---
+
+### MVP Construction
+
+- We created a webform for the Feedback app to support anonymous submissions
+
+![Podio webform](http://i.imgur.com/Tv47L5g.png)
+
+---
+
+### MVP Construction ...
+
+- We configured Zapier to listen for changes in the Feedback app and post the related entry to Firebase
+
+![Zapier Podio to Firebase](http://i.imgur.com/1GmDJRS.png?1)
+
+---
+
+### MVP Construction ...
+
+- The zap we created uses filters so it only listens for changes on the `status` field and only triggers if its value is set to "Promote"
+
+![zap filter](http://i.imgur.com/YfkXPZo.png?1)
+
+---
+
+### MVP Construction ...
+
+- The zap we configured automatically tracks history for us
+
+![Zapier dashboard](http://i.imgur.com/ibvYO6M.png)
+
+![Zapier history](http://i.imgur.com/3T6h0LS.png)
+
+---
+
+### MVP Construction ...
+
+- Firebase holds the data for us as a key-value pair
+
+![Firebase data](http://i.imgur.com/PGkyvtk.png)
+
+---
+
+### MVP Construction ...
+
+- Finally, to render the entries in Firebase we use a little Javascript
+
+```javascript
+$(document).ready(function() {
+  var FireBase = new Firebase("https://dbc-coaches.firebaseio.com/");
+  var quotesRef = FireBase.child("quotes");
+  quotesRef.on('value', function (snapshot) {
+    showQuote(snapshot.val())
+  }, function (errorObject) {
+    console.log('The read failed: ' + errorObject.code);
+  });
+
+  var showQuote = function(quotes){
+    var randomQuoteObject = fetch_random(quotes)
+    var randomQuote = randomQuoteObject['feedback']
+    var coach = randomQuoteObject['coach']
+    var coachesdiv = document.createElement('div')
+    var quotesdiv = document.createElement('div')
+    var element = document.createElement('p')
+    var coachElement = document.createElement('p')
+    element.innerHTML = randomQuote
+    coachElement.innerHTML = "<p>Students have this to say about: <br><b>" +
+                              coach + "</b></p>"
+    coachesdiv.innerHTML = coachElement.innerHTML
+    quotesdiv.innerHTML =  element.innerHTML
+    document.getElementsByClassName('quote')[0].appendChild(coachesdiv)
+    document.getElementsByClassName('quote')[0].appendChild(quotesdiv)
+  }
+})
+```
+---
+
+### MVP Construction ...
+
+- This helper function was used by the code on the previous slide
+
+```javascript
+function fetch_random(quotes) {
+  var temp_key, keys = [];
+  for(temp_key in quotes) {
+    if(quotes.hasOwnProperty(temp_key)) {
+      keys.push(temp_key);
+    }
+  }
+  return quotes[keys[Math.floor(Math.random() * keys.length)]];
+}
+
+```
+---
+
+class: center, middle
+
+## Deployment
+
+---
+
+### Deployment
+
+- A link was added to the coaching team website
+
+![webform submission link](http://i.imgur.com/PcW3f39.png?1)
+
+---
+
+class: center, middle
+
+## Live
+
+---
+
+class: center, middle
+
+![final product](http://i.imgur.com/I9YpHbc.png?1)
