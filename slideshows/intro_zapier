@@ -1,0 +1,98 @@
+class: center, middle
+
+# Zapier
+
+---
+
+Zapier enables you to automate tasks between other online apps (like Salesforce, Basecamp, and Gmail). This helps you use complementary apps side-by-side.
+
+--
+
+First, you set up a Zap.
+
+--
+
+A Zap is a blueprint for a task you want to do over and over. In words, a Zap looks like this: "When I get a new thing in A, do this other thing in B." The first part is the trigger and the second part is the action.
+
+An example is "When I get a new entry from a Wufoo form, create a new lead in Salesforce."
+
+![creating a zap](http://i.imgur.com/fhtyku6.png?1)
+
+---
+
+You get as much granularity as you need. You can pick what fields from the trigger app should go to the action app and you can use static text and custom fields too. For instance, you might say that the phone number from your Wufoo form should be the work phone of your new Salesforce lead.
+
+--
+
+Once you've built a few Zaps you can monitor their activity through your dashboard
+
+![Zapier dashboard](http://i.imgur.com/4EhQCr3.png)
+
+---
+
+## Wufoo
+
+#### Triggers
+- New Field: triggers when a new field is added to a form  
+- New Entry: triggers when someone fills out your form  
+- New Form: triggers when you build a new form  
+
+#### Actions
+
+- Create Entry: creates a new entry in Wufoo for a form and data you select  
+
+---
+
+## Podio
+
+#### Triggers
+- New Organization: triggers when you add a new org
+- New Workspace: triggers when you add a new space
+- New Application: triggers when you add a new app
+- New Item: triggers when you add a new item, record or entry to an app
+- New View: triggers when you a new view is added
+- New Task: triggers when you add a new task
+- New Action: triggers instantly when an action happens inside an app
+- New Activity: triggers whenever there is activity in your stream
+
+#### Actions
+- Create Item: create a new item, record or entry inside an app
+- Create Task: create a new task
+- Create Status: add a status update to a workspace stream
+
+
+---
+
+## Ducksboard
+
+#### Triggers
+- New Image Widget Label: labels for widgets that can accept images.
+- New Numeric Widget Label: labels for widgets that accept numeric data
+- New Dashboard: Ducksboard dashboards
+- New Timeline Label: labels for timelines
+
+#### Actions
+- Counter Increase: increase a number shown on the dashboard
+- Show Image: send an image to a widget
+- Send Number: send a number to a numbers widget
+- Timeline Message: make a timeline entry
+- Counter Decrease: decrease a number shown on the dashboard
+
+---
+
+All connected accounts are available for maintenance as well
+
+![connected accounts](http://i.imgur.com/vY2VtqJ.png?1)
+
+---
+
+And Zapier takes care of monitoring service integration health across all their partners
+
+![Zapier service status](http://i.imgur.com/3o4vo3k.png?1)
+
+---
+
+Finally, Zapier is highly motivated to help you understand the value of a platform-centric world using publicly available APIs
+
+![creating a zap](http://i.imgur.com/a4tXMgn.png)
+
