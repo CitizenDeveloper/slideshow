@@ -115,6 +115,8 @@ class: center, middle
 ### MVP Components
 
 - [Podio](http://www.podio.com)
+  - **organization**: DBC Coaches
+  - **workspace**: Automation
   - **app**: Feedback
   - **webform**: showing only 2 of 3 available fields
 - Zapier
